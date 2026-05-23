@@ -35,12 +35,10 @@ export default function Home() {
       fontFamily:"Arial"
     }}>
 
-      <h1 style={{
-        color:"#FFD700",
-        fontSize:"60px"
-      }}>
-        OPTION KING
-      </h1>
+      <img 
+  src="/logo.png" 
+  width="200"
+/>
 
       <div style={{
         background:"#111",
