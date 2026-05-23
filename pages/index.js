@@ -36,7 +36,7 @@ export default function Home() {
     }}>
 
       <img 
-  src="/logo.png" 
+  src="/optionking.png" 
   width="200"
 />
 
