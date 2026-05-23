@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 export default function Home() {
 
   const [nifty, setNifty] = useState("Loading...");
-  const [data, setData] = useState([]);
+  const [signal, setSignal] = useState("WAIT");
+  const [color, setColor] = useState("white");
 
   useEffect(() => {
 
@@ -19,13 +20,36 @@ export default function Home() {
 
         setNifty(json.records.underlyingValue);
 
-        const optionData = json.records.data.slice(0, 10);
+        const data = json.records.data;
 
-        setData(optionData);
+        let totalCE = 0;
+        let totalPE = 0;
+
+        data.forEach((item) => {
+
+          totalCE += item.CE?.openInterest || 0;
+          totalPE += item.PE?.openInterest || 0;
+
+        });
+
+        if (totalPE > totalCE) {
+
+          setSignal("BULLISH 🚀");
+          setColor("lime");
+
+        } else {
+
+          setSignal("BEARISH 🔻");
+          setColor("red");
+
+        }
 
       } catch (error) {
-        console.log(error);
+
+        setSignal("LIVE DATA ERROR");
+
       }
+
     }
 
     fetchData();
@@ -33,67 +57,59 @@ export default function Home() {
   }, []);
 
   return (
+
     <div style={{
       background:"#000",
       color:"#fff",
       minHeight:"100vh",
-      padding:"20px",
+      padding:"30px",
       fontFamily:"Arial"
     }}>
 
       <h1 style={{
         color:"#FFD700",
-        fontSize:"50px"
+        fontSize:"55px"
       }}>
         OPTION KING
       </h1>
 
-      <h2 style={{color:"lime"}}>
-        NIFTY : {nifty}
-      </h2>
+      <div style={{
+        background:"#111",
+        padding:"25px",
+        borderRadius:"20px",
+        marginTop:"30px"
+      }}>
 
-      <table
-        border="1"
-        cellPadding="10"
-        style={{
-          width:"100%",
-          marginTop:"30px",
-          borderCollapse:"collapse"
-        }}
-      >
+        <h2>NIFTY LIVE</h2>
 
-        <thead>
-          <tr style={{background:"#111"}}>
-            <th>STRIKE</th>
-            <th>CE OI</th>
-            <th>PE OI</th>
-          </tr>
-        </thead>
+        <h1 style={{
+          color:"cyan",
+          fontSize:"50px"
+        }}>
+          {nifty}
+        </h1>
 
-        <tbody>
+      </div>
 
-          {data.map((item,index) => (
+      <div style={{
+        background:"#111",
+        padding:"25px",
+        borderRadius:"20px",
+        marginTop:"30px"
+      }}>
 
-            <tr key={index}>
+        <h2>MARKET SIGNAL</h2>
 
-              <td>{item.strikePrice}</td>
+        <h1 style={{
+          color:color,
+          fontSize:"60px"
+        }}>
+          {signal}
+        </h1>
 
-              <td>
-                {item.CE?.openInterest || "-"}
-              </td>
-
-              <td>
-                {item.PE?.openInterest || "-"}
-              </td>
-
-            </tr>
-
-          ))}
-
-        </tbody>
-
-      </table>
+      </div>
 
     </div>
+
   );
 }
