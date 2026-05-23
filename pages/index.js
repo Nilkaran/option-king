@@ -35,10 +35,7 @@ export default function Home() {
       fontFamily:"Arial"
     }}>
 
-      <img 
-  src="/optionking.png"
-  width="200"
-/>
+      <img src="/optionking.png" width="200" />
 
       <div style={{
         background:"#111",
