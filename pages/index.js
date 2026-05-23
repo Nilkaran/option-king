@@ -43,13 +43,11 @@ export default function Home() {
 
       }
 
-      const now = new Date().toLocaleTimeString();
-
-      setTime(now);
+      setTime(new Date().toLocaleTimeString());
 
     } catch (error) {
 
-      setSignal("LIVE DATA ERROR");
+      setSignal("LIVE ERROR");
 
     }
 
@@ -73,31 +71,45 @@ export default function Home() {
 
     <div style={{
       background:"#000",
-      color:"#fff",
       minHeight:"100vh",
-      padding:"30px",
-      fontFamily:"Arial"
+      padding:"20px",
+      fontFamily:"Arial",
+      color:"#fff"
     }}>
 
-      <h1 style={{
-        color:"#FFD700",
-        fontSize:"60px"
+      <div style={{
+        textAlign:"center",
+        marginBottom:"30px"
       }}>
-        OPTION KING
-      </h1>
+
+        <h1 style={{
+          color:"#FFD700",
+          fontSize:"55px"
+        }}>
+          OPTION KING
+        </h1>
+
+        <p style={{
+          color:"gray"
+        }}>
+          LIVE OPTION CHAIN SIGNALS
+        </p>
+
+      </div>
 
       <div style={{
         background:"#111",
         padding:"25px",
         borderRadius:"20px",
-        marginTop:"30px"
+        marginBottom:"20px",
+        textAlign:"center",
+        boxShadow:"0px 0px 15px #222"
       }}>
 
-        <h2>NIFTY LIVE</h2>
+        <h2 style={{color:"cyan"}}>NIFTY LIVE</h2>
 
         <h1 style={{
-          color:"cyan",
-          fontSize:"55px"
+          fontSize:"60px"
         }}>
           {nifty}
         </h1>
@@ -108,7 +120,8 @@ export default function Home() {
         background:"#111",
         padding:"25px",
         borderRadius:"20px",
-        marginTop:"30px"
+        textAlign:"center",
+        boxShadow:"0px 0px 15px #222"
       }}>
 
         <h2>MARKET SIGNAL</h2>
@@ -124,6 +137,7 @@ export default function Home() {
 
       <div style={{
         marginTop:"20px",
+        textAlign:"center",
         color:"gray"
       }}>
 
