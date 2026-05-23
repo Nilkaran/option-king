@@ -3,22 +3,28 @@ import { useEffect, useState } from "react";
 export default function Home() {
 
   const [nifty, setNifty] = useState("Loading...");
+  const [data, setData] = useState([]);
 
   useEffect(() => {
 
     async function fetchData() {
+
       try {
 
         const response = await fetch(
           "https://www.nseindia.com/api/option-chain-indices?symbol=NIFTY"
         );
 
-        const data = await response.json();
+        const json = await response.json();
 
-        setNifty(data.records.underlyingValue);
+        setNifty(json.records.underlyingValue);
+
+        const optionData = json.records.data.slice(0, 10);
+
+        setData(optionData);
 
       } catch (error) {
-        setNifty("LIVE DATA ERROR");
+        console.log(error);
       }
     }
 
@@ -31,29 +37,62 @@ export default function Home() {
       background:"#000",
       color:"#fff",
       minHeight:"100vh",
-      padding:"30px",
+      padding:"20px",
       fontFamily:"Arial"
     }}>
 
-      <img src="/optionking.png" width="200" />
-
-      <div style={{
-        background:"#111",
-        padding:"25px",
-        borderRadius:"20px",
-        marginTop:"30px"
+      <h1 style={{
+        color:"#FFD700",
+        fontSize:"50px"
       }}>
+        OPTION KING
+      </h1>
 
-        <h2>LIVE NIFTY</h2>
+      <h2 style={{color:"lime"}}>
+        NIFTY : {nifty}
+      </h2>
 
-        <h1 style={{
-          color:"lime",
-          fontSize:"50px"
-        }}>
-          {nifty}
-        </h1>
+      <table
+        border="1"
+        cellPadding="10"
+        style={{
+          width:"100%",
+          marginTop:"30px",
+          borderCollapse:"collapse"
+        }}
+      >
 
-      </div>
+        <thead>
+          <tr style={{background:"#111"}}>
+            <th>STRIKE</th>
+            <th>CE OI</th>
+            <th>PE OI</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          {data.map((item,index) => (
+
+            <tr key={index}>
+
+              <td>{item.strikePrice}</td>
+
+              <td>
+                {item.CE?.openInterest || "-"}
+              </td>
+
+              <td>
+                {item.PE?.openInterest || "-"}
+              </td>
+
+            </tr>
+
+          ))}
+
+        </tbody>
+
+      </table>
 
     </div>
   );
